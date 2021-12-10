@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{%load blog_tags%}
+
+{%load static%}
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static "css/blogapp.css"%}">
+    <meta charset="utf-8">
+    <title>{%block title%}{%endblock%}</title>
+  </head>
+  <body>
+    <div class="content">
+      {%block content%}{%endblock%}
+    </div>
+    <div class="sidebar">
+      <h2>Blog updates</h2>
+      <p>Total number of published posts : <span id='pcount'>{%my_tag%}</span></p>
+      <h3>Latest posts</h3>{%show_latest_posts%}
+      <h3>Most Commented Posts</h3>
+      {% most_commented_posts as commented_posts%}
+      <ul>
+        {%for post in commented_posts%}
+        <li> <a href="{% url 'post_detail' post.slug %}">{{post.title}}</a></li>
+        {%endfor%}
+      </ul>
+
+    </div>
+
+
+
+  </body>
+</html>

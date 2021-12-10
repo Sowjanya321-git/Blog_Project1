@@ -1,0 +1,44 @@
+ <!DOCTYPE html>
+ {% extends "blogapp/base.html" %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <h1>{% block title %} {{ post.title }} {% endblock title %}</h1>
+        <p class="text-info bg-info">{{ post.author }} | {{ post.created_on }}</p>
+        <img src="{{post.image.url}}"><br>
+        <p class="card-text ">{{ post.content | safe }}</p>
+      </div>
+    </div
+  </div>
+</div>
+<div class="container" align='right'>
+  <a href="{%url 'email_view' post.id%}" class="btn btn-lg btn-primary" target='__blank'>Share post by email</a>
+
+</div>
+{%with comments.count as comments_count%}
+ <h2> {{comments_count}} Comment {{comments_count|pluralize}}</h2>
+ {%endwith%}
+ {%if comments%}
+    {%for comment in comments%}
+     <p id='ch'>Comment {{forloop.counter}} by {{comment.name}} on {{comment.created}}</p>
+  <div class="cb">{{comment.body|linebreaks}}
+     {%endfor%}
+{%else%}
+   <p>There are no comments</p>
+{%endif%}
+
+ </div>
+ {%if csubmit%}
+ <h2>Comment submitted successfully</h2>
+ {%else%}
+ <form method="post">
+   {{form.as_p}}
+   {%csrf_token%}
+   <input type="submit" name="" value="Submit Comment">
+</form>
+{%endif%}
+ {% endblock %}
